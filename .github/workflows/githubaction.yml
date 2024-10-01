@@ -31,7 +31,13 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
-      - name: Build Docker Buildx
+      - name: Set up Docker Buildx
+        run: |
+          curl -L https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+          chmod +x ~/.docker/cli-plugins/docker-buildx
+          docker buildx create --use
+
+      - name: Build Docker Image
         run: docker build -t mylibrary .
 
       - name: Run Docker Compose
